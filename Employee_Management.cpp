@@ -17,25 +17,25 @@ public:
 		salary = 0;
 		strcpy(address,"Not found");
 	}
-	void set_data();
-	void show_data();
+	void set_data();  // function to take employee details
+	void show_data();  // function to display data
 
 	// File handling functions
 
-	void add_employee();
-	void show_all_data();
-	bool search_employee(char*);
-	void delete_employee(char*);
-	void update_employee(char*);
+	void add_employee();              // function to add a new employee
+	void show_all_data();            //  function to show all employees
+	bool search_employee(char*);    //   function to search an employee
+	void delete_employee(char*);   //    function to delete an employee
+	void update_employee(char*);  //     function to update an existing employee
 };
 
 void Employee::set_data()
 {
 	cout<<"Enter code of employee : "<<endl;
 	cin>>code;
-	cin.ignore();
+	cin.ignore();  // to clear the buffer of previous variable
 	cout<<"Enter name of employee : "<<endl;
-	cin.getline(name,19);
+	cin.getline(name,19);  // function to get a string input
 	cout<<"Enter salary of employee : "<<endl;
 	cin>>salary;
 	cin.ignore();
@@ -54,7 +54,7 @@ void Employee::show_data()
 void Employee::add_employee()
 {
 	set_data();
-	std::fstream file;
+	std::fstream file;  // creating an object  of fstream class
 	file.open("Employee_Data.txt",std::ios::binary|std::ios::app);
 	if(!file)
 	{
@@ -62,14 +62,14 @@ void Employee::add_employee()
 		file.close();
 		return;
 	}
-	file.write((char*)this,sizeof(*this));
+	file.write((char*)this,sizeof(*this));  // "this" represents current object and write function writes the provided data in the file
 	file.close();
 	cout<<endl<<"Employee added successfully !"<<endl<<endl;
 }
 
 void Employee::show_all_data()
 {
-	ifstream in;
+	ifstream in;  // creating an object of ifstream class
 	in.open("Employee_Data.txt",ios::binary|ios::in);
 	if(!in)
 	{
@@ -79,7 +79,7 @@ void Employee::show_all_data()
 	else
 	{
 		cout<<endl<<"             List of all employee !"<<endl<<endl;
-		in.read((char*)this,sizeof(*this));
+		in.read((char*)this,sizeof(*this));  // reading the data from the file in object format
 		while(!in.eof())
 		{
 			show_data();
@@ -90,7 +90,7 @@ void Employee::show_all_data()
 	}
 }
 
-bool Employee::search_employee(char* t)
+bool Employee::search_employee(char* t)  // return true if searched employee is present in the file, else false
 {
 	int c=0;
 	ifstream in;
@@ -105,7 +105,7 @@ bool Employee::search_employee(char* t)
 		in.read((char*)this,sizeof(*this));
 		while(!in.eof())
 		{
-			if(strcmp(t,this->name)==0)
+			if(strcmp(t,this->name)==0)  // if the searched name an current object name are same
 			{
 				cout<<endl<<"             Employee found !"<<endl<<endl;
 				show_data();
@@ -126,27 +126,27 @@ bool Employee::search_employee(char* t)
 
 void Employee::delete_employee(char* t)
 {
-	bool ans = search_employee(t);
+	bool ans = search_employee(t);  // first search the employee,if not present then simply exit
 	if(ans == false)
 		return;
 	ifstream in;
 	ofstream out;
 	in.open("Employee_Data.txt",ios::in);	
-	out.open("temp_file.txt",ios::binary|ios::out);
+	out.open("temp_file.txt",ios::binary|ios::out);  // this creates a new empty text file with name as temp_file
 	in.read((char*)this,sizeof(*this));
 	while(!in.eof())
 	{
-		if(strcmp(t,this->name)!=0)
+		if(strcmp(t,this->name)!=0)  // skipping the employee to be deleted
 		{
-			out.write((char*)this,sizeof(*this));
+			out.write((char*)this,sizeof(*this));  // copying the data from main file to the temporary file
 		}
 		in.read((char*)this,sizeof(*this));
 	}
 	cout<<endl<<"             Employee deleted successfully !"<<endl<<endl;
 	in.close();
 	out.close();
-	remove("Employee_Data.txt");
-	rename("temp_file.txt","Employee_Data.txt");
+	remove("Employee_Data.txt");  // deleting the main file
+	rename("temp_file.txt","Employee_Data.txt");  // making the temporary file as main file
 	
 }
 
@@ -160,13 +160,13 @@ void Employee::update_employee(char* t)
 	
 	while(!file.eof())
 	{
-		int loc = file.tellg();
+		int loc = file.tellg();  // storing the current location of file pointer
 		file.read((char*)this,sizeof(*this));
 		if(strcmp(t,this->name)==0)
 		{
 			set_data();
-			file.seekp(loc);
-			file.write((char*)this,sizeof(*this));
+			file.seekp(loc);  // pointing to the desired location by using "loc" variable
+			file.write((char*)this,sizeof(*this));  // updating the data
 			break;
 		}
 	}
@@ -174,7 +174,7 @@ void Employee::update_employee(char* t)
 	cout<<endl<<"             Employee updated successfully !"<<endl<<endl;
 }
 
-int menu()
+int menu()  // function to show menu to the user. It returns the selected option number
 {
 	int select;
 	cout<<endl;
@@ -199,19 +199,19 @@ int menu()
 
 int main()
 {	
-	Employee emp;
+	Employee emp;  // creating an object of employee class
 	char name[20];
-	while(1)
+	while(1)  // infinite loop
 	{
-		system("cls");
-		switch(menu())
+		system("cls");  // to clear the screen
+		switch(menu())  // switch case for selected option
 		{
-			case 1:
+			case 1:  // if user wants to add new employee
 			{
 				emp.add_employee();
 				break;
 			}
-			case 2:
+			case 2:  // if user wants to search an employee
 			{
 				cout<<"Enter employee name : "<<endl;
 				cin.ignore();
@@ -224,7 +224,7 @@ int main()
 				emp.show_all_data();
 				break;
 			}
-			case 4:
+			case 4:  // if user wants to delete an employee
 			{
 				cout<<"Enter employee name : "<<endl;
 				cin.ignore();
@@ -232,7 +232,7 @@ int main()
 				emp.delete_employee(name);
 				break;
 			}
-			case 5:
+			case 5:  // if user wants to update an employee
 			{
 				cout<<"Enter employee name : "<<endl;
 				cin.ignore();
@@ -240,7 +240,7 @@ int main()
 				emp.update_employee(name);
 				break;
 			}
-			case 6:
+			case 6:  // if user wants to exit the program
 			{
 				cout<<"Thank You For Using This System"<<endl;
 				cout<<endl<<"Do you really want to exit ? "<<endl;
@@ -251,17 +251,17 @@ int main()
 				{ 
 					system("cls");
 					exit(0);
-					break;
+					break;  // breaking the infinite loop
 				}
 				else
 					continue;
 			}
-			default:
+			default:  // if user enter an invalid number in menu
 			{
 				cout<<"Invalid Choice !"<<endl;
 			}
 		}
-		system("pause");
+		system("pause");  // halts the main program and ask an input from user to continue
 	}
 	return 0;
 }
