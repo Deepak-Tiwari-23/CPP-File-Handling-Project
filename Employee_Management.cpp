@@ -208,11 +208,15 @@ int main()
 		{
 			case 1:  // if user wants to add new employee
 			{
+				system("cls");
+				cout<<endl<<"Adding New Employee...."<<endl<<endl;
 				emp.add_employee();
 				break;
 			}
 			case 2:  // if user wants to search an employee
 			{
+				system("cls");
+				cout<<endl<<"Searching Employee...."<<endl<<endl;
 				cout<<"Enter employee name : "<<endl;
 				cin.ignore();
 				cin.getline(name,19);
@@ -221,11 +225,14 @@ int main()
 			}
 			case 3:
 			{
+				system("cls");
 				emp.show_all_data();
 				break;
 			}
 			case 4:  // if user wants to delete an employee
 			{
+				system("cls");
+				cout<<endl<<"Deleting Employee...."<<endl<<endl;
 				cout<<"Enter employee name : "<<endl;
 				cin.ignore();
 				cin.getline(name,19);
@@ -234,6 +241,8 @@ int main()
 			}
 			case 5:  // if user wants to update an employee
 			{
+				system("cls");
+				cout<<endl<<"Updating Employee...."<<endl<<endl;
 				cout<<"Enter employee name : "<<endl;
 				cin.ignore();
 				cin.getline(name,19);
@@ -242,6 +251,7 @@ int main()
 			}
 			case 6:  // if user wants to exit the program
 			{
+				system("cls");
 				cout<<"Thank You For Using This System"<<endl;
 				cout<<endl<<"Do you really want to exit ? "<<endl;
 				cout<<endl<<"  1.Confirm        2.Cancel "<<endl;
@@ -258,6 +268,7 @@ int main()
 			}
 			default:  // if user enter an invalid number in menu
 			{
+				system("cls");
 				cout<<"Invalid Choice !"<<endl;
 			}
 		}
